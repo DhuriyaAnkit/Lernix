@@ -98,50 +98,55 @@ export default function SignUpForm({ onSuccess }: SignUpFormProps) {
     }
     return true
   }
-
+  
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault()
     setError('')
     
-    if (!validateForm()) {
-      return
-    }
-
+    if (!validateForm()) return
     setLoading(true)
-
     try {
       const supabase = createClient()
-      const { error } = await supabase.auth.signUp({
+      const { data, error } = await supabase.auth.signUp({
         email: formData.email,
         password: formData.password,
-        options: {
-          emailRedirectTo: `${window.location.origin}/protected`,
-          data: {
+      })
+      if (error) {
+        setError(error.message)
+        return
+      }
+      
+      const user = data.user
+      
+      if (user) {
+        const { error: profileError } = await supabase
+        .from('profiles')
+        .insert([
+          {
+            id: user.id,
             full_name: formData.fullName,
-            first_name: formData.fullName.split(' ')[0],
-            last_name: formData.fullName.split(' ').slice(1).join(' ') || '',
             mobile_number: formData.mobileNumber,
             address: formData.address,
             pin_code: formData.pinCode,
             city: formData.city,
             state: formData.state,
             country: formData.country,
+            email: formData.email,
           },
-        },
-      })
-
-      if (error) {
-        setError(error.message)
-      } else {
-        setError('Check your email to confirm your account!')
+        ])
+        if (profileError) {
+          console.error(profileError)
+        }
       }
+      setError('Account created successfully!')
+      onSuccess?.()
     } catch (err) {
       setError('Failed to sign up')
     } finally {
       setLoading(false)
     }
   }
-
+  
   return (
     <form onSubmit={handleSignUp} className="space-y-4 max-h-[70vh] overflow-y-auto pr-2">
       {error && (

@@ -110,7 +110,7 @@ export default function Dashboard() {
     return (
       <main className="min-h-screen bg-gradient-to-b from-white to-purple-50 text-gray-900">
         <div className="max-w-7xl mx-auto px-4 py-20 text-center">
-          <p className="text-xl text-slate-300">Loading...</p>
+          <p className="text-xl text-gray-900">Loading...</p>
         </div>
       </main>
     )
@@ -120,7 +120,7 @@ export default function Dashboard() {
     return (
       <main className="min-h-screen bg-gradient-to-b from-white to-purple-50 text-gray-900">
         <div className="max-w-7xl mx-auto px-4 py-20 text-center">
-          <p className="text-xl text-slate-300">Please log in to view your dashboard.</p>
+          <p className="text-xl text-gray-900">Please log in to view your dashboard.</p>
           <Link href="/auth/login">
             <Button className="mt-4">Sign In</Button>
           </Link>
@@ -140,7 +140,7 @@ export default function Dashboard() {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold">Welcome back, {user.full_name}!</h1>
-              <p className="text-slate-400 mt-1">{user.email}</p>
+              <p className="text-gray-900 mt-1">{user.email}</p>
             </div>
             <div className="flex gap-3">
               <Link href="/settings">
@@ -231,7 +231,7 @@ export default function Dashboard() {
           </Card>
           <Card className="bg-white border-purple-200 shadow-sm p-6">
             <span className="text-2xl mb-3">📊</span>
-            <p className="text-sm text-slate-400">Average Progress</p>
+            <p className="text-sm text-grey-900">Average Progress</p>
             <p className="text-3xl font-bold mt-1">
               {enrolledCourses.length > 0
                 ? Math.round(enrolledCourses.reduce((sum, c) => sum + (c?.progress || 0), 0) / enrolledCourses.length)
@@ -256,17 +256,17 @@ export default function Dashboard() {
 
                   <div className="p-6 flex flex-col flex-grow">
                     <h3 className="text-xl font-bold mb-2">{course?.name}</h3>
-                    <p className="text-sm text-slate-400 mb-4">By {course?.instructor}</p>
+                    <p className="text-sm text-gray-900 mb-4">By {course?.instructor}</p>
 
                     <div className="mb-4 flex-grow">
-                      <p className="text-sm text-slate-300 mb-2">Progress</p>
+                      <p className="text-sm text-gray-900 mb-2">Progress</p>
                       <div className="w-full bg-white/10 rounded-full h-2">
                         <div
                           className="bg-gradient-to-r from-blue-500 to-purple-500 h-2 rounded-full transition-all"
                           style={{ width: `${course?.progress || 0}%` }}
                         />
                       </div>
-                      <p className="text-xs text-slate-400 mt-1">{course?.progress || 0}% complete</p>
+                      <p className="text-xs text-gray-900 mt-1">{course?.progress || 0}% complete</p>
                     </div>
 
                     <Link href={`/course/${course?.id}`}>
@@ -281,8 +281,8 @@ export default function Dashboard() {
           ) : (
             <Card className="bg-white border-purple-200 shadow-sm p-12 text-center">
 
-              <BookOpen className="h-12 w-12 mx-auto text-slate-400 mb-4" />
-              <p className="text-xl text-slate-300 mb-4">You haven't enrolled in any courses yet.</p>
+              <BookOpen className="h-12 w-12 mx-auto text-gray-900 mb-4" />
+              <p className="text-xl text-gray-900 mb-4">You haven't enrolled in any courses yet.</p>
               <Link href="/">
                 <Button>Browse Courses</Button>
               </Link>

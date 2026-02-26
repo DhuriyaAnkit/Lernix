@@ -2,6 +2,7 @@
 
 import { useParams } from 'next/navigation'
 import { COURSES } from '@/lib/products'
+import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -130,9 +131,14 @@ export default function CoursePage() {
         <div className="lg:col-span-2 space-y-12">
           {/* Course Info */}
           <section>
-            <div className="aspect-video bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg mb-8 flex items-center justify-center">
-              <span className="text-6xl font-bold opacity-20">{course.name[0]}</span>
-            </div>
+            <div className="aspect-video relative rounded-lg overflow-hidden mb-8">
+              <Image
+              src={course.image}
+              alt={course.name}
+              fill
+              className="object-cover"
+              />
+              </div>
 
             <h2 className="text-3xl font-bold mb-4 text-purple-900">About This Course</h2>
             <p className="text-gray-700 text-lg leading-relaxed mb-8">{course.description}</p>
@@ -185,7 +191,7 @@ export default function CoursePage() {
                     {section.lessons.map((lesson) => (
                       <li key={lesson} className="flex items-center gap-3">
                         <CheckCircle className="h-5 w-5 text-green-400 flex-shrink-0" />
-                        <span className="text-slate-300">{lesson}</span>
+                        <span className="text-gray-900">{lesson}</span>
                       </li>
                     ))}
                   </ul>
@@ -213,7 +219,7 @@ export default function CoursePage() {
                           ))}
                         </div>
                       </div>
-                      <p className="text-slate-300">{review.text}</p>
+                      <p className="text-gray-900">{review.text}</p>
                     </div>
                   </div>
                 </Card>
@@ -243,7 +249,7 @@ export default function CoursePage() {
                 </Button>
               )}
 
-              <ul className="space-y-3 text-sm text-slate-300 pt-6 border-t border-white/10">
+              <ul className="space-y-3 text-sm text-gray-900 pt-6 border-t border-white/10">
                 <li className="flex items-center gap-2">
                   <CheckCircle className="h-4 w-4 text-green-400 flex-shrink-0" />
                   Lifetime access

@@ -13,7 +13,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 export default function Page() {
   const [email, setEmail] = useState('')
@@ -22,6 +22,20 @@ export default function Page() {
   const [isLoading, setIsLoading] = useState(false)
 
   const router = useRouter()
+
+  // ✅ AUTO REDIRECT IF ALREADY LOGGED IN
+  useEffect(() => {
+    const checkUser = async () => {
+      const supabase = createClient()
+      const { data: { user } } = await supabase.auth.getUser()
+
+      if (user) {
+        router.replace('/dashboard')
+      }
+    }
+
+    checkUser()
+  }, [router])
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -38,9 +52,8 @@ export default function Page() {
 
       if (error) throw error
 
-      router.refresh()
-
-      router.push('/dashboard')
+      // ✅ Redirect after login
+      router.replace('/dashboard')
 
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Login failed')
@@ -65,7 +78,6 @@ export default function Page() {
               <form onSubmit={handleLogin}>
                 <div className="flex flex-col gap-6">
 
-                  {/* Email */}
                   <div className="grid gap-2">
                     <Label htmlFor="email">Email</Label>
                     <Input
@@ -78,7 +90,6 @@ export default function Page() {
                     />
                   </div>
 
-                  {/* Password */}
                   <div className="grid gap-2">
                     <Label htmlFor="password">Password</Label>
                     <Input
@@ -90,12 +101,10 @@ export default function Page() {
                     />
                   </div>
 
-                  {/* Error */}
                   {error && (
                     <p className="text-sm text-red-500">{error}</p>
                   )}
 
-                  {/* Submit */}
                   <Button
                     type="submit"
                     className="w-full"
@@ -106,7 +115,6 @@ export default function Page() {
 
                 </div>
 
-                {/* Signup Link */}
                 <div className="mt-4 text-center text-sm">
                   Don&apos;t have an account?{' '}
                   <Link
